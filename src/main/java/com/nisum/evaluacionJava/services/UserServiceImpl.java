@@ -4,10 +4,12 @@ import com.nisum.evaluacionJava.entities.User;
 import com.nisum.evaluacionJava.exceptions.CustomEx;
 import com.nisum.evaluacionJava.repositories.UserRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Service
 public class UserServiceImpl implements UserService{
 
     private UserRepository userRepository;
@@ -15,6 +17,11 @@ public class UserServiceImpl implements UserService{
     @Override
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    public Boolean verifyAndSave(User user) {
+        return null;
     }
 
     //metodo para verificar si mail existe, de lo contrario crear usuario, si existe en bd, arrojar mensaje de error, el correo ya existe.....
