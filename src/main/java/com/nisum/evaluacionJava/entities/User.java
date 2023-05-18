@@ -24,7 +24,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name="user")
+@Table(name="`user`")
 @ToString(exclude = "phone")
 public class User {
     @Id
@@ -34,7 +34,7 @@ public class User {
             allocationSize = 1
     )
     @GeneratedValue(
-            strategy = GenerationType.UUID,
+            strategy = GenerationType.SEQUENCE,
             generator = "user_id_seq"
     )
     private Long id;
@@ -48,17 +48,20 @@ public class User {
     @Column(columnDefinition = "boolean default true")
     private Boolean active;
 
-    @Column(name = "created_at")
+    @Column//(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column//(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @Transient
     private String password;
 
+    /*@Column
+    private Long phone;*/
+
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private List<Phone> phones;
+    private List<Phone> phone;
 
 
 

@@ -14,6 +14,10 @@ public class UserServiceImpl implements UserService{
 
     private UserRepository userRepository;
 
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public User saveUser(User user) {
         return userRepository.save(user);
@@ -66,12 +70,15 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean deleteUser(Long id) {
+    public Boolean deleteUser(Long id, String email) {
         try{
-            userRepository.deleteById(id);
+            User user = userRepository.findUserByIdAndEmail(id, email);
+            user.setActive(false);
+            user.setUpdatedAt(LocalDateTime.now());
+            userRepository.save(user);
             return true;
         } catch(Exception e) {
-            return false;
+            throw new CustomEx(String.format("Error: $s", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

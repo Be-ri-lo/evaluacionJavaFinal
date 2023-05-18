@@ -2,8 +2,6 @@ package com.nisum.evaluacionJava.services;
 
 import com.nisum.evaluacionJava.entities.User;
 
-import java.util.Optional;
-
 public interface UserService {
     User saveUser(User user);
 
@@ -13,6 +11,6 @@ public interface UserService {
 
     User updated(Long id, User updatedUser);
 
-    boolean deleteUser(Long id);
+    Boolean deleteUser(Long id, String email);
 
 }

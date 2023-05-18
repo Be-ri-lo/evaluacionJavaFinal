@@ -2,7 +2,6 @@ package com.nisum.evaluacionJava.controllers;
 
 import com.nisum.evaluacionJava.entities.User;
 import com.nisum.evaluacionJava.services.UserServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,14 +11,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/users")
-@RequiredArgsConstructor
 public class UserController {
     UserServiceImpl userService;
 
+    public UserController(UserServiceImpl userService) {this.userService = userService; }
+
+    //agregar mensajes en todas las respuestas.
     @PostMapping
     public ResponseEntity saveUser(@RequestBody User user) {
         return new ResponseEntity(userService.saveUser(user), HttpStatus.CREATED);
@@ -36,9 +38,9 @@ public class UserController {
         return new ResponseEntity(userService.updated(id, user), HttpStatus.OK);
     }
 
-    @DeleteMapping("/id")
-    public ResponseEntity deleteUser(@PathVariable("id") Long id) {
-        boolean answer = userService.deleteUser(id);
+    @DeleteMapping("/{id}/{email}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id, @PathVariable String email) {
+        boolean answer = userService.deleteUser(id, email);
         if (answer == true) {
             return new ResponseEntity(HttpStatus.OK);
         }
