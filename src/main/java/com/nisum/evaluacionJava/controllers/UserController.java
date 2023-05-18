@@ -28,9 +28,9 @@ public class UserController {
     }
 
     //prefiero buscarlo por mail
-    @GetMapping("/{id}")
-    public ResponseEntity getUser(@PathVariable("id") Long id) {
-        return new ResponseEntity(userService.getUser(id), HttpStatus.OK);
+    @GetMapping("/{email}")
+    public ResponseEntity getUser(@PathVariable String email) {
+        return new ResponseEntity(userService.getUser(email), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

@@ -5,9 +5,7 @@ import com.nisum.evaluacionJava.entities.User;
 public interface UserService {
     User saveUser(User user);
 
-    Boolean verifyAndSave(User user);
-
-    User getUser(Long id);
+    User getUser(String email);
 
     User updated(Long id, User updatedUser);
 
