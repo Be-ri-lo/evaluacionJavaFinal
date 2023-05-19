@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,8 +17,6 @@ public class UserRequestDTO implements Serializable {
     private String name;
     private String email;
     private String password;
-    //por momento
-    private String phone;
-    //private PhoneRequestDTO phoneId;
+    private List<Phone> phones;
 
 }

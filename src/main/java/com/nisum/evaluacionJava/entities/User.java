@@ -48,30 +48,30 @@ public class User {
     @Column(columnDefinition = "boolean default true")
     private Boolean isActive;
 
-    //@Column(name = "created_at")
+    @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime created;
 
-    //@Column(name = "updated_at")
+    @Column(name = "updated_at")
     @CreationTimestamp
     private LocalDateTime updated;
 
-    @Column
-    private String lastLogin;
+    @Column(name = "day_of_login")
+    private LocalDateTime lastLogin;
 
     @Column
     //para que un dato no se persistido @Transient
     private String password;
 
-    @Column
-    private String phone;
+    /*@Column
+    private String phone;*/
 
     @Column
     private String tokenId;
 
 
-    /*@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    private List<Phone> phone;*/
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    private List<Phone> phones;
 
 
 

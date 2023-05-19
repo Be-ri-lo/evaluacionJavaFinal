@@ -2,7 +2,6 @@ package com.nisum.evaluacionJava.controllers;
 
 import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
 import com.nisum.evaluacionJava.dto.response.UserResponseDTO;
-import com.nisum.evaluacionJava.entities.User;
 import com.nisum.evaluacionJava.services.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController

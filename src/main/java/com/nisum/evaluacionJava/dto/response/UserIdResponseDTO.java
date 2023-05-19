@@ -10,7 +10,6 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreationObjectDTO implements Serializable {
+public class UserIdResponseDTO implements Serializable {
     private Long id;
-    private String uri;
 }

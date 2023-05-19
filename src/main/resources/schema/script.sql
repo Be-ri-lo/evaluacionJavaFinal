@@ -15,7 +15,7 @@ CREATE TABLE usuario(
  UNIQUE (email)
  );
 
-CREATE TABLE phone(
+CREATE TABLE phones(
 id SERIAL,
 id_user INT NOT NULL,
 number VARCHAR(15),
