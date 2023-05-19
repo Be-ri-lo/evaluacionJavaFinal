@@ -1,5 +1,6 @@
 package com.nisum.evaluacionJava.services;
 
+import com.nisum.evaluacionJava.domain.JwtToken;
 import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
 import com.nisum.evaluacionJava.dto.response.UserResponseDTO;
 import com.nisum.evaluacionJava.entities.Phone;
@@ -24,12 +25,14 @@ public class UserServiceImpl implements UserService{
     private UserRepository userRepository;
     private PhoneRepository phoneRepository;
     private ModelMapper modelMapper;
+    private JwtBuilderGeneratorService jwtBuilderGeneratorService;
 
 
-    public UserServiceImpl(UserRepository userRepository, PhoneRepository phoneRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, PhoneRepository phoneRepository, ModelMapper modelMapper, JwtBuilderGeneratorService jwtBuilderGeneratorService) {
         this.userRepository = userRepository;
         this.phoneRepository = phoneRepository;
         this.modelMapper = modelMapper;
+        this.jwtBuilderGeneratorService = jwtBuilderGeneratorService;
     }
 
     private Boolean verifyExistingUser(UserRequestDTO userRequestDTO){
@@ -81,9 +84,8 @@ public class UserServiceImpl implements UserService{
             if (userResponseDTO == null) {
 
                 LocalDateTime now = LocalDateTime.now();
-                byte[] array = new byte[7];
-                new Random().nextBytes(array);
-                String randomString = new String(array, StandardCharsets.UTF_8);
+                JwtToken token = new JwtToken(jwtBuilderGeneratorService.generateToken(userRequestDTO.getName()));
+
 
                 User user = User.builder()
                         .name(userRequestDTO.getName())
@@ -93,7 +95,7 @@ public class UserServiceImpl implements UserService{
                         .phones(userRequestDTO.getPhones())
                         .created(now)
                         .updated(now)
-                        .tokenId(randomString)
+                        .tokenId(token.getToken())
                         .build();
 
                 User savedUser = userRepository.save(user);
