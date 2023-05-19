@@ -2,39 +2,35 @@ package com.nisum.evaluacionJava.services;
 
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.crypto.MacProvider;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
 
-@Component
+@Service
 public class JwtBuilderGeneratorService {
-    /*public String generateToken(String username) {
-        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.ES256;
-        SecretKey secretKey = MacProvider.generateKey(SignatureAlgorithm.HS256);
+    public String generateToken(String username) {
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        Key secretKey = MacProvider.generateKey(SignatureAlgorithm.HS256);
+
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
 
         HashMap<String, Object> header = new HashMap<>();
         header.put("alg", signatureAlgorithm.toString());
         header.put("typ", "JWT");
 
-        JwtBuilder tokenJWT = Jwts.builder()
+        JwtBuilder builder = Jwts.builder()
                 .setHeader(header)
-                .setSubject("nisum")
-                .claim("username", username)
-                .setIssuedAt(Date.from(Instant.ofEpochSecond(1466796822L)))
+                .setIssuedAt(now)
+                .setSubject(username)
+                .setIssuer("nissum")
                 .signWith(signatureAlgorithm, secretKey);
 
-        return tokenJWT.toString();
-    }*/
-
-    public String generateToken(String username) {
-        SecretKey key = MacProvider.generateKey(SignatureAlgorithm.HS256);
-        String jws = Jwts.builder().setSubject("Bea").signWith(SignatureAlgorithm.ES256, key).compact();
-        return jws;
+        return builder.compact();
     }
+
 }

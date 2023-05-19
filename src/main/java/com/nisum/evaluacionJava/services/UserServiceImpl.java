@@ -11,11 +11,8 @@ import com.nisum.evaluacionJava.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,26 +81,26 @@ public class UserServiceImpl implements UserService{
             if (userResponseDTO == null) {
 
                 LocalDateTime now = LocalDateTime.now();
-                JwtToken token = new JwtToken(jwtBuilderGeneratorService.generateToken(userRequestDTO.getName()));
-
+                String token = jwtBuilderGeneratorService.generateToken(userRequestDTO.getName());
 
                 User user = User.builder()
                         .name(userRequestDTO.getName())
                         .email(userRequestDTO.getEmail())
                         .password(userRequestDTO.getPassword())
                         .isActive(true)
-                        .phones(userRequestDTO.getPhones())
+                        .phone(userRequestDTO.getPhone())
+                        //.phones(userRequestDTO.getPhones())
                         .created(now)
                         .updated(now)
-                        .tokenId(token.getToken())
+                        .tokenId(token)
                         .build();
 
                 User savedUser = userRepository.save(user);
 
-                List<Phone> phoneList = savedUser.getPhones();
+               /* List<Phone> phoneList = savedUser.getPhones();
                 for (Phone phone: phoneList) {
                     phoneRepository.save(phone);
-                }
+                }*/
 
                 return UserResponseDTO
                         .builder()

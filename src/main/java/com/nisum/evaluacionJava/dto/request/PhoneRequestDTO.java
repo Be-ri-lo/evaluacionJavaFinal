@@ -15,7 +15,7 @@ public class PhoneRequestDTO {
     private String phoneNumber;
     private String cityCode;
     private String countryCode;
-    private UserIdResponseDTO userId;
+    //private UserIdResponseDTO userId;
 
     /*public static PhoneRequestDTO fromRepository (Phone phone) {
         return PhoneRequestDTO.builder()

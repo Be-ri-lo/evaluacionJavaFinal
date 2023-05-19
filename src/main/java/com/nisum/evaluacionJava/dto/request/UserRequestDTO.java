@@ -17,6 +17,7 @@ public class UserRequestDTO implements Serializable {
     private String name;
     private String email;
     private String password;
-    private List<Phone> phones;
+    private String phone;
+   // private List<Phone> phones;
 
 }

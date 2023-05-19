@@ -25,7 +25,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name="usuario")
-@ToString(exclude = "phone")
+@ToString(exclude = "phones")
 public class User {
     @Id
     @SequenceGenerator(
@@ -63,15 +63,15 @@ public class User {
     //para que un dato no se persistido @Transient
     private String password;
 
-    /*@Column
-    private String phone;*/
+    @Column
+    private String phone;
 
     @Column
     private String tokenId;
 
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    private List<Phone> phones;
+   /* @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    private List<Phone> phones;*/
 
 
 
