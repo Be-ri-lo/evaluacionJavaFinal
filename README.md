@@ -1,12 +1,14 @@
-Evaluación: JAVA
+<h1 align="center"> Evaluación: JAVA </h1>
 
-Descripción: 
+
+
+<h3>📓 Descripción:</h3>
 Se desarrolla una aplicación con:
-  -SpringBoot 3.0.6
-  -Java 17
-  -Base de datos H2, configurada desde hibernate.
-  -Gradle 8.1.1
-  
+  <li>SpringBoot 3.0.6</li>
+  <li>Java 17</li>
+  <li>Base de datos H2, configurada desde hibernate.</li>
+  <li>Gradle 8.1.1</li>
+ <br> 
 Esta expone una API RESTful de creación de usuarios.
 Cada usuario tiene asociado un listado de teléfonos mas campos como "nombre", "correo" y constraseña".
 Al solicitar información del usuario, la respuesta será id, fecha de creación, fecha de actualización, 
@@ -15,39 +17,40 @@ fecha de creación), token de acceso de la API y un campo isActive,
 donde indica si el usuario sigue habilitado dentro del sistema.
 Incluye pruebas unitarias.
 
-Funcionalidades:
-Usuario : Crear, Obtener, Editar(solo se edita su correo) y 
-          Cambiar su estado isActive en true para activo o fals para inactivo (delete).
-Teléfono: Crear.
+## :hammer: Funcionalidades:
+<li>Usuario : Crear, Obtener, Editar(solo se edita su correo) y cambiar su estado isActive en true para activo o falso para inactivo (delete).
+<li>Teléfono: Crear.</li>
 
-Para empezar:
-1.- Clona el repositorio
-2.- Para control de versiones es aconsejable utilizar SDKman
-3.- Instala las dependencias
-4.- Run proyecto
+<h3> 🖱️ Para empezar:</h3>
+<ol>
+  <li> Clona el repositorio </li>
+  <li>Para control de versiones es aconsejable utilizar SDKman</li>
+  <li>Instala las dependencias</li>
+  <li>Run proyecto</li>
+</ol>
 
-Feature:
-creationStructure -> arquitectura base más desarrollo de lógica de negocio.
-relation -> desarrollo de relación de entidades.
-token -> desarrollo de token por medio de JWT, se deja finalmente opción de UUID.
-Test -> desarrollo de test unitarios.
-Swagger -> configuración de dependencias para swagger.
+<h3> 💼 Feature:</h3>
+<li>creationStructure -> arquitectura base más desarrollo de lógica de negocio.</li>
+<li>relation -> desarrollo de relación de entidades.</li>
+<li>token -> desarrollo de token por medio de JWT, se deja finalmente opción de UUID.</li>
+<li>Test -> desarrollo de test unitarios.</li>
+<li>Swagger -> configuración de dependencias para swagger.</li>
 
-Documentación:
-JWT
+  <h3> 📃 Documentación:</h3>
+  <li>JWT</li>
 https://www.baeldung.com/java-json-web-tokens-jjwt
 https://github.com/jwtk/jjwt
 
-H2
+  <li>H2</li>
 https://www.baeldung.com/spring-boot-h2-database
 
-UUID
+  <li>UUID</li>
 https://www.baeldung.com/java-uuid
 
-Swagger
+  <li>Swagger</li>
 https://swagger.io/
 
-Autor: Beatriz López C.
+  <h4> 🧑‍🚀 Autor: Beatriz López C.</h4>
 
 
 
