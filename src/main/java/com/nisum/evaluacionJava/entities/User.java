@@ -25,7 +25,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name="usuario")
-@ToString(exclude = "phone")
+@ToString(exclude = "phones")
 public class User {
     @Id
     @SequenceGenerator(
