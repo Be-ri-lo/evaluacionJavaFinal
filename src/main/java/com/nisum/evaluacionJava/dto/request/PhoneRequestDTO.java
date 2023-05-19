@@ -14,16 +14,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PhoneRequestDTO {
     private Long id;
-    private String number;
+    private String phoneNumber;
     private String cityCode;
     private String countryCode;
 
-    public static PhoneRequestDTO from (Phone phone) {
+    /*public static PhoneRequestDTO from (Phone phone) {
         return PhoneRequestDTO.builder()
                 .id(phone.getId())
-                .number(phone.getNumber())
+                .phoneNumber(phone.getPhoneNumber())
                 .cityCode(phone.getCityCode())
                 .countryCode(phone.getCountryCode())
                 .build();
-    }
+    }*/
 }

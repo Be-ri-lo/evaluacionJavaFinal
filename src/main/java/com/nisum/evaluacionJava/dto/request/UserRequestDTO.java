@@ -17,8 +17,8 @@ public class UserRequestDTO implements Serializable {
     private String name;
     private String email;
     private String password;
-    private Boolean active;
-    private LocalDateTime dayOfLogin;
-    private PhoneRequestDTO phoneId;
+    //por momento
+    private String phone;
+    //private PhoneRequestDTO phoneId;
 
 }

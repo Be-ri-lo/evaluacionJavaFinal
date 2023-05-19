@@ -1,5 +1,6 @@
 package com.nisum.evaluacionJava.controllers;
 
+import com.nisum.evaluacionJava.dto.request.PhoneRequestDTO;
 import com.nisum.evaluacionJava.entities.Phone;
 import com.nisum.evaluacionJava.repositories.PhoneRepository;
 import com.nisum.evaluacionJava.services.PhoneServiceImpl;
@@ -21,7 +22,7 @@ public class PhoneController {
     }
 
     @PostMapping
-    public ResponseEntity<Phone> saveUser(@RequestBody Phone phone) {
-        return new ResponseEntity(phoneService.savePhone(phone), HttpStatus.CREATED);
+    public ResponseEntity<Phone> saveUser(@RequestBody PhoneRequestDTO phoneRequestDTO) {
+        return new ResponseEntity(phoneService.savePhone(phoneRequestDTO), HttpStatus.CREATED);
     }
 }

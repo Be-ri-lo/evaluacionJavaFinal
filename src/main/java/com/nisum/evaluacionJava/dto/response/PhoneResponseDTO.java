@@ -15,16 +15,16 @@ import java.time.LocalDateTime;
 @Builder
 public class PhoneResponseDTO {
     private Long id;
-    private String number;
+    private String phoneNumber;
     private String cityCode;
     private String countryCode;
 
-    public static PhoneResponseDTO from (Phone phone) {
+   /* public static PhoneResponseDTO from (Phone phone) {
         return PhoneResponseDTO.builder()
                 .id(phone.getId())
-                .number(phone.getNumber())
+                .phoneNumber(phone.getPhoneNumber())
                 .cityCode(phone.getCityCode())
                 .countryCode(phone.getCountryCode())
                 .build();
-    }
+    }*/
 }

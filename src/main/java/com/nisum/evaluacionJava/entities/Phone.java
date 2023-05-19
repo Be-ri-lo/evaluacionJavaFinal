@@ -37,7 +37,7 @@ public class Phone {
     private Long id;
 
     @Column(name = "number", nullable = false)
-    private String number;
+    private String phoneNumber;
 
     @Column(name = "city_code", nullable = false)
     private String cityCode;

@@ -57,13 +57,23 @@ public class User {
     private LocalDateTime updated;
 
     @Column
+    private String lastLogin;
+
+    @Column
     //para que un dato no se persistido @Transient
     private String password;
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    private List<Phone> phone;
+    @Column
+    private String phone;
 
-    //token
+    @Column
+    private String tokenId;
+
+
+    /*@OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    private List<Phone> phone;*/
+
+
 
 
 }

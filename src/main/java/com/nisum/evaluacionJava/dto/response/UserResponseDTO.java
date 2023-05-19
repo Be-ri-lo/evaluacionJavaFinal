@@ -17,10 +17,7 @@ public class UserResponseDTO implements Serializable {
     private Long id;
     private LocalDateTime created;
     private LocalDateTime updated;
-    private LocalDateTime last_Login;
+    private LocalDateTime lastLogin;
     private Boolean isActive;
     private String tokenId;
-
-    private PhoneResponseDTO phone;
-
 }

@@ -1,14 +1,15 @@
 package com.nisum.evaluacionJava.services;
 
-import com.nisum.evaluacionJava.entities.Phone;
+import com.nisum.evaluacionJava.dto.request.PhoneRequestDTO;
+import com.nisum.evaluacionJava.dto.response.PhoneResponseDTO;
 
 public interface PhoneService {
 
-    Phone savePhone(Phone phone);
+    PhoneResponseDTO savePhone(PhoneRequestDTO phoneRequestDTO);
 
-   /* Phone getPhone(String number);
+    PhoneResponseDTO getPhone(Long id);
 
-    Phone updated(Long id, Phone updatedPhone);
+    PhoneResponseDTO updated(Long id, PhoneRequestDTO updatedPhone);
 
-    Boolean deletePhone(Long id, String number);*/
+    Boolean deletePhone(Long id, String number);
 }
