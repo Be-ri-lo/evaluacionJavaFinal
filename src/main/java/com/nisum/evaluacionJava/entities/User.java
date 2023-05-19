@@ -6,17 +6,15 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -30,14 +28,14 @@ import java.util.List;
 @ToString(exclude = "phone")
 public class User {
     @Id
-   /* @SequenceGenerator(
+    @SequenceGenerator(
             name = "user_id_seq",
             sequenceName = "user_id_seq",
             allocationSize = 1
-    )*/
+    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE
-            //,generator = "user_id_seq"
+            strategy = GenerationType.SEQUENCE,
+            generator = "user_id_seq"
     )
     private Long id;
 
@@ -48,20 +46,24 @@ public class User {
     private String email;
 
     @Column(columnDefinition = "boolean default true")
-    private Boolean active;
+    private Boolean isActive;
 
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
+    //@Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime created;
 
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    //@Column(name = "updated_at")
+    @CreationTimestamp
+    private LocalDateTime updated;
 
-    @Transient
+    @Column
+    //para que un dato no se persistido @Transient
     private String password;
 
     @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     private List<Phone> phone;
 
+    //token
 
 
 }

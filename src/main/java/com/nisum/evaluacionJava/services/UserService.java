@@ -1,13 +1,17 @@
 package com.nisum.evaluacionJava.services;
 
+import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
+import com.nisum.evaluacionJava.dto.response.CreationObjectDTO;
+import com.nisum.evaluacionJava.dto.response.UserResponseDTO;
 import com.nisum.evaluacionJava.entities.User;
 
 public interface UserService {
-    User saveUser(User user);
 
-    User getUser(String email);
+    CreationObjectDTO saveUser(UserRequestDTO userRequestDTO);
 
-    User updated(Long id, User updatedUser);
+    UserResponseDTO getUser(String email);
+
+    CreationObjectDTO updated(Long id, UserRequestDTO updatedUser);
 
     Boolean deleteUser(Long id, String email);
 

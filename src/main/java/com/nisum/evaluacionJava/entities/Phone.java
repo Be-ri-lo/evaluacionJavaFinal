@@ -14,23 +14,25 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
 @AllArgsConstructor
 @Entity
 @Table(name = "phone")
+@ToString(exclude = "usuario")
 @NoArgsConstructor
 public class Phone {
     @Id
-    /*@SequenceGenerator(
+    @SequenceGenerator(
             name = "phone_id_seq",
             sequenceName = "phone_id_seq",
             allocationSize = 1
-    )*/
+    )
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE
-           //, generator = "phone_id_seq"
+            strategy = GenerationType.SEQUENCE,
+            generator = "phone_id_seq"
     )
     private Long id;
 

@@ -1,5 +1,7 @@
 package com.nisum.evaluacionJava.controllers;
 
+import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
+import com.nisum.evaluacionJava.dto.response.UserResponseDTO;
 import com.nisum.evaluacionJava.entities.User;
 import com.nisum.evaluacionJava.services.UserServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -21,36 +23,30 @@ public class UserController {
 
     public UserController(UserServiceImpl userService) {this.userService = userService; }
 
-    //agregar mensajes en todas las respuestas.
     @PostMapping
-    public ResponseEntity saveUser(@RequestBody User user) {
+    public ResponseEntity<UserResponseDTO> saveUser(@RequestBody UserRequestDTO user) {
         return new ResponseEntity(userService.saveUser(user), HttpStatus.CREATED);
     }
 
     //prefiero buscarlo por mail
     @GetMapping("/{email}")
     public ResponseEntity getUser(@PathVariable String email) {
-        return new ResponseEntity(userService.getUser(email), HttpStatus.OK);
-    }
-
-    @GetMapping
-    public ResponseEntity getAllUser() {
-        return new ResponseEntity(userService.getAllUser(), HttpStatus.OK);
+        return ResponseEntity.ok(userService.getUser(email));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updatedUser(@PathVariable("id") Long id, @RequestBody User user) {
-        return new ResponseEntity(userService.updated(id, user), HttpStatus.OK);
+    public ResponseEntity updatedUser(@PathVariable("id") Long id, @RequestBody UserRequestDTO userRequestDTO) {
+        return new ResponseEntity(userService.updated(id, userRequestDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/{email}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id, @PathVariable String email) {
+    public HttpStatus deleteUser(@PathVariable Long id, @PathVariable String email) {
         boolean answer = userService.deleteUser(id, email);
         if (answer == true) {
-            return new ResponseEntity(HttpStatus.OK);
+            return HttpStatus.OK;
         }
         else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return HttpStatus.NOT_FOUND;
         }
     }
 }
