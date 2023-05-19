@@ -6,6 +6,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -24,18 +26,18 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name="`user`")
+@Table(name="usuario")
 @ToString(exclude = "phone")
 public class User {
     @Id
-    @SequenceGenerator(
+   /* @SequenceGenerator(
             name = "user_id_seq",
             sequenceName = "user_id_seq",
             allocationSize = 1
-    )
+    )*/
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_id_seq"
+            strategy = GenerationType.SEQUENCE
+            //,generator = "user_id_seq"
     )
     private Long id;
 
@@ -48,19 +50,16 @@ public class User {
     @Column(columnDefinition = "boolean default true")
     private Boolean active;
 
-    @Column//(name = "created_at")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    @Column//(name = "updated_at")
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @Transient
     private String password;
 
-    /*@Column
-    private Long phone;*/
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     private List<Phone> phone;
 
 

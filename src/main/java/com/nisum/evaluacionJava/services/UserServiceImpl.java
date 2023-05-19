@@ -73,4 +73,8 @@ public class UserServiceImpl implements UserService{
             throw new CustomEx(String.format("Error: $s", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    public User getAllUser() {
+        return (User) userRepository.findAll();
+    }
 }

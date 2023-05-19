@@ -14,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @Builder
@@ -22,19 +21,17 @@ import lombok.ToString;
 @Entity
 @Table(name = "phone")
 @NoArgsConstructor
-@ToString(exclude = "`user`")
 public class Phone {
     @Id
-    @SequenceGenerator(
+    /*@SequenceGenerator(
             name = "phone_id_seq",
             sequenceName = "phone_id_seq",
             allocationSize = 1
-    )
+    )*/
     @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "phone_id_seq"
+            strategy = GenerationType.SEQUENCE
+           //, generator = "phone_id_seq"
     )
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "number", nullable = false)
@@ -48,5 +45,5 @@ public class Phone {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user", referencedColumnName = "id")
-    User user;
+    User usuario;
 }

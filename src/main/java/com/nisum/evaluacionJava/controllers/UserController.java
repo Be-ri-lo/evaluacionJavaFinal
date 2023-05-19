@@ -33,6 +33,11 @@ public class UserController {
         return new ResponseEntity(userService.getUser(email), HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity getAllUser() {
+        return new ResponseEntity(userService.getAllUser(), HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity updatedUser(@PathVariable("id") Long id, @RequestBody User user) {
         return new ResponseEntity(userService.updated(id, user), HttpStatus.OK);
