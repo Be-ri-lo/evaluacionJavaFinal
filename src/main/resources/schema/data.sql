@@ -1,0 +1,1 @@
+INSERT INTO usuario (name, email, password)
