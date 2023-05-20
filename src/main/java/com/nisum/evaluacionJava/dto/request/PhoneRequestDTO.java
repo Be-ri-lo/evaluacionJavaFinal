@@ -17,12 +17,4 @@ public class PhoneRequestDTO {
     private String countryCode;
     private UserIdResponseDTO userId;
 
-    /*public static PhoneRequestDTO fromRepository (Phone phone) {
-        return PhoneRequestDTO.builder()
-                .id(phone.getId())
-                .phoneNumber(phone.getPhoneNumber())
-                .cityCode(phone.getCityCode())
-                .countryCode(phone.getCountryCode())
-                .build();
-    }*/
 }

@@ -26,10 +26,14 @@ public class UserController {
         return new ResponseEntity(userService.saveUser(user), HttpStatus.CREATED);
     }
 
-    //prefiero buscarlo por mail
     @GetMapping("/{email}")
-    public ResponseEntity getUser(@PathVariable String email) {
-        return ResponseEntity.ok(userService.getUser(email));
+    public ResponseEntity getUserEmail(@PathVariable String email) {
+        return ResponseEntity.ok(userService.getUserEmail(email));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponseDTO> getUser(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(userService.getUser(id));
     }
 
     @PutMapping("/{id}")
