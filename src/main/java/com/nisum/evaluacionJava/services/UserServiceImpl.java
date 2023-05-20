@@ -10,10 +10,10 @@ import com.nisum.evaluacionJava.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,19 +21,19 @@ import java.util.regex.Pattern;
 @Service
 public class UserServiceImpl implements UserService{
 
-    private UserRepository userRepository;
-    private PhoneRepository phoneRepository;
-    private ModelMapper modelMapper;
+    private final UserRepository userRepository;
+    private final PhoneRepository phoneRepository;
+    private final ModelMapper modelMapper;
 
 
-    public UserServiceImpl(UserRepository userRepository, PhoneRepository phoneRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, PhoneRepository phoneRepository,  ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.phoneRepository = phoneRepository;
         this.modelMapper = modelMapper;
     }
 
     private Boolean verifyExistingUser(UserRequestDTO userRequestDTO){
-        UserResponseDTO foundUser = getUser(userRequestDTO.getEmail());
+        UserResponseDTO foundUser = getUserEmail(userRequestDTO.getEmail());
         return foundUser != null;
     }
 
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService{
 
     private UserResponseDTO getUserToCreate(String email) {
         try {
-            return getUser(email);
+            return getUserEmail(email);
         } catch (Exception e) {
             return null;
         }
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService{
                         .email(userRequestDTO.getEmail())
                         .password(userRequestDTO.getPassword())
                         .isActive(true)
-                        .phones(userRequestDTO.getPhones())
+                        .phones((List<Phone>) userRequestDTO.getPhones())
                         .created(now)
                         .updated(now)
                         .tokenId(randomString)
@@ -98,10 +98,11 @@ public class UserServiceImpl implements UserService{
 
                 User savedUser = userRepository.save(user);
 
-                List<Phone> phoneList = savedUser.getPhones();
+               /* List<Phone> phoneList = savedUser.getPhones();
+                if(phoneList == null) return null;
                 for (Phone phone: phoneList) {
                     phoneRepository.save(phone);
-                }
+                }*/
 
                 return UserResponseDTO
                         .builder()
@@ -121,16 +122,22 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public UserResponseDTO getUser(String email) {
+    public UserResponseDTO getUserEmail(String email) {
         User user = userRepository.findUserByEmail(email);
         if(user == null) return null;
+        return modelMapper.map(user, UserResponseDTO.class);
+    }
+
+    @Override
+    public UserResponseDTO getUser(Long id) {
+        Optional<User> user = userRepository.findById(id);
         return modelMapper.map(user, UserResponseDTO.class);
     }
 
     public UserResponseDTO updated(Long id, UserRequestDTO updatedUser) {
         try {
             User foundUser = userRepository.findById(id).get();
-            foundUser.setEmail(updatedUser.getEmail());
+            foundUser.setId(updatedUser.getPhones().getId());
 
             userRepository.save(foundUser);
 
@@ -164,55 +171,3 @@ public class UserServiceImpl implements UserService{
 
 }
 
-
-   /* @Override
-    public UserResponseDTO saveUser(UserRequestDTO userRequestDTO) {
-        try {
-            if (verifyExistingUser(userRequestDTO)) {
-                throw new CustomEx("Error: El correo ya fue registrado.", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            if (!isEmailMatch(userRequestDTO)) {
-                throw new CustomEx("Error: El correo no es válido.", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-            if (!isPasswordMatch(userRequestDTO)) {
-                throw new CustomEx("Error: La contraseña no es válida.", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-            UserResponseDTO userResponseDTO = getUserToCreate(userRequestDTO.getEmail());
-            if (userResponseDTO == null) {
-
-                LocalDateTime now = LocalDateTime.now();
-                byte[] array = new byte[7];
-                new Random().nextBytes(array);
-                String randomString = new String(array, Charset.forName("UTF-8"));
-
-                User user = User.builder()
-                        .name(userRequestDTO.getName())
-                        .email(userRequestDTO.getEmail())
-                        .password(userRequestDTO.getPassword())
-                        .isActive(true)
-                        .phones((List<Phone>) userRequestDTO.getPhoneId())
-                        //.phone(userRequestDTO.getPhone())
-                        .created(now)
-                        .updated(now)
-                        .tokenId(randomString)
-                        .build();
-
-                userRepository.save(user);
-
-                return UserResponseDTO
-                        .builder()
-                        .id(user.getId())
-                        .created(user.getCreated())
-                        .updated(user.getUpdated())
-                        .lastLogin(user.getUpdated())
-                        .isActive(user.getIsActive())
-                        .tokenId(user.getTokenId())
-                        .build();
-            } else {
-                throw new CustomEx("Error: Usuario no ha podido ser guardado", HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } catch (CustomEx e) {
-            throw new Error(e);
-        }
-    }*/

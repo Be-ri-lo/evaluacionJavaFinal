@@ -1,8 +1,7 @@
 package com.nisum.evaluacionJava.controllers;
 
 import com.nisum.evaluacionJava.dto.request.PhoneRequestDTO;
-import com.nisum.evaluacionJava.entities.Phone;
-import com.nisum.evaluacionJava.repositories.PhoneRepository;
+import com.nisum.evaluacionJava.dto.response.PhoneResponseDTO;
 import com.nisum.evaluacionJava.services.PhoneServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +21,7 @@ public class PhoneController {
     }
 
     @PostMapping
-    public ResponseEntity<Phone> saveUser(@RequestBody PhoneRequestDTO phoneRequestDTO) {
+    public ResponseEntity<PhoneResponseDTO> savePhone(@RequestBody PhoneRequestDTO phoneRequestDTO) {
         return new ResponseEntity(phoneService.savePhone(phoneRequestDTO), HttpStatus.CREATED);
     }
 }

@@ -15,7 +15,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -60,11 +59,7 @@ public class User {
     private LocalDateTime lastLogin;
 
     @Column
-    //para que un dato no se persistido @Transient
     private String password;
-
-    /*@Column
-    private String phone;*/
 
     @Column
     private String tokenId;

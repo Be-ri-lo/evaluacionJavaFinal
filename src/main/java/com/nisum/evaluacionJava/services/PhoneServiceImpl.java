@@ -25,8 +25,8 @@ public class PhoneServiceImpl implements PhoneService {
     @Override
     public PhoneResponseDTO savePhone(PhoneRequestDTO phoneRequestDTO) {
         try {
-            PhoneResponseDTO phoneResponseDTO = getPhoneToCreate(phoneRequestDTO.getId());
-            if (phoneResponseDTO == null) {
+            Optional<Phone> phoneResponseDTO = getPhoneToCreate(phoneRequestDTO.getId());
+            if (!phoneResponseDTO.isPresent()) {
                 Phone phone = Phone.builder()
                         .id(phoneRequestDTO.getId())
                         .phoneNumber(phoneRequestDTO.getPhoneNumber())
@@ -42,33 +42,22 @@ public class PhoneServiceImpl implements PhoneService {
                         .countryCode(phone.getCountryCode())
                         .build();
             } else {
-                throw new CustomEx("Error: Teléfono no ha podido ser guardado", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new CustomEx("Error: Teléfono no se ha podido guardar", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } catch (CustomEx e) {
-            throw new CustomEx("Error: Teléfono no ha podido ser guardado", HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new CustomEx("Error: Teléfono no se ha podido guardar", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
-    public PhoneResponseDTO getPhone(Long id) {
-        Optional<Phone> phone = phoneRepository.findById(id);
-        return modelMapper.map(phone, PhoneResponseDTO.class);
+    public Optional<Phone> getPhone(Long id) {
+        return phoneRepository.findById(id);
     }
 
-    @Override
-    public PhoneResponseDTO updated(Long id, PhoneRequestDTO updatedPhone) {
-        return null;
-    }
-
-    @Override
-    public Boolean deletePhone(Long id, String number) {
-        return null;
-    }
-
-    private PhoneResponseDTO getPhoneToCreate(Long id) {
+    Optional<Phone> getPhoneToCreate(Long id) {
         try {
             return getPhone(id);
-        } catch (Exception e) {
+        } catch (CustomEx e) {
             return null;
         }
     }
