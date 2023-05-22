@@ -46,22 +46,21 @@ Completar con los siguientes datos:
 
 
 ## 🧪 Pruebas:
-
-<p>DELETE</p>
-<br>
-<img width="500" alt="Captura de Pantalla 2023-05-19 a la(s) 12 27 49" src="https://github.com/Be-ri-lo/evaluacionJavaFinal/assets/67941274/cee4e98c-43e3-48f8-b581-e52c55d0e40a">
-<br>
-<p>GET</p>
-<img width="500" alt="Captura de Pantalla 2023-05-19 a la(s) 12 23 11" src="https://github.com/Be-ri-lo/evaluacionJavaFinal/assets/67941274/15fb4984-74d1-475d-b1ff-f713859b50ee">
-<br>
-<p>POST</p>
+<p>POST http://localhost:8080/users </p>
 <img width="500" alt="Captura de Pantalla 2023-05-19 a la(s) 12 22 32" src="https://github.com/Be-ri-lo/evaluacionJavaFinal/assets/67941274/9f0e56ee-6846-4c55-ab4d-1f1cd836467a">
 <br>
 <p>POST</p>
 ![postman](https://github.com/Be-ri-lo/evaluacionJavaFinal/assets/67941274/349934f4-73a4-4770-926c-2c2451a034c6)
 <br>
-<p>PUT</p>
+<p>GET http://localhost:8080/users/{email} </p>
+<img width="500" alt="Captura de Pantalla 2023-05-19 a la(s) 12 23 11" src="https://github.com/Be-ri-lo/evaluacionJavaFinal/assets/67941274/15fb4984-74d1-475d-b1ff-f713859b50ee">
+<br>
+<p>PUT http://localhost:8080/users/{id} </p>
 <img width="500" alt="Captura de Pantalla 2023-05-19 a la(s) 12 28 04" src="https://github.com/Be-ri-lo/evaluacionJavaFinal/assets/67941274/d4fd9055-d488-4663-a74d-075c2f7188f5">
+<p>DELETE http://localhost:8080/users/{id}/{email}</p>
+<br>
+<img width="500" alt="Captura de Pantalla 2023-05-19 a la(s) 12 27 49" src="https://github.com/Be-ri-lo/evaluacionJavaFinal/assets/67941274/cee4e98c-43e3-48f8-b581-e52c55d0e40a">
+
 
 ## 💼 Feature:
 <li>creationStructure -> arquitectura base más desarrollo de lógica de negocio.</li>
