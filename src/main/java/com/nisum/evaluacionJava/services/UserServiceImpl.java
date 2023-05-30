@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService{
 
 
 
-    public UserServiceImpl(UserRepository userRepository, PhoneRepository phoneRepository,  ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, PhoneRepository phoneRepository,  ModelMapper modelMapper, JwtBuilderGeneratorService jwtBuilderGeneratorService) {
         this.userRepository = userRepository;
         this.phoneRepository = phoneRepository;
         this.modelMapper = modelMapper;
@@ -85,8 +85,8 @@ public class UserServiceImpl implements UserService{
 
             UserResponseDTO userResponseDTO = getUserToCreate(userRequestDTO.getEmail());
             if (userResponseDTO == null) {
-                JwtToken token = new JwtToken(jwtBuilderGeneratorService.generateToken(authentication));
-                String token = jwtBuilderGeneratorService.generateToken(authentication);
+                //JwtToken token = new JwtToken(jwtBuilderGeneratorService.generateToken(authentication));
+                //String token = jwtBuilderGeneratorService.generateToken(authentication);
                 String token = jwtBuilderGeneratorService.generateToken(userRequestDTO.getName());
                 LocalDateTime now = LocalDateTime.now();
 
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService{
                         .phones((List<Phone>) userRequestDTO.getPhones())
                         .created(now)
                         .updated(now)
-                        .tokenId(randomString)
+                        .tokenId(token)
                         .build();
 
                 if(user.getPhones() != null && !user.getPhones().isEmpty()) {
@@ -150,7 +150,8 @@ public class UserServiceImpl implements UserService{
     public UserResponseDTO updated(String email, UserUpdateRequestDTO updatedUser) {
         try {
             User foundUser = userRepository.findUserByEmail(email);
-            foundUser.setIsActive(updatedUser.getIsActive());
+            foundUser.setIsActive(false);
+            foundUser.setUpdated(LocalDateTime.now());
 
             userRepository.save(foundUser);
 

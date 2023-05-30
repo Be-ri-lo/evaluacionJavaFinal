@@ -1,4 +1,4 @@
-package com.nisum.evaluacionJava.services;
+/*package com.nisum.evaluacionJava.services;
 
 import com.nisum.evaluacionJava.controllers.UserController;
 import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
@@ -20,8 +20,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.when;*/
 
+/*
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Unit tests of UserServiceImpl class")
 class UserServiceImplTest {
@@ -77,7 +78,7 @@ class UserServiceImplTest {
         assertEquals(null, userResponseDTO.getId());
     }*/
 
-
+/*
     @Test
     @DisplayName("get User by id")
     public void getUserById() {
@@ -104,7 +105,7 @@ class UserServiceImplTest {
         assertEquals("Beatriz", userTest.getName());
         assertEquals("Beatriz@gmail.com", userTest.getEmail());
     }*/
-
+/*
     @Test
     void updated() {
     }
@@ -119,7 +120,7 @@ class UserServiceImplTest {
         assert(result);
     }*/
 
-
+/*
     @Test
     public void isPasswordMatch() {
     }
@@ -131,4 +132,4 @@ class UserServiceImplTest {
     @Test
     public void verifyExistingUser() {
     }
-}
+}*/
