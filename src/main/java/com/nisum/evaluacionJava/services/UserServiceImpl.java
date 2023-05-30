@@ -1,6 +1,7 @@
 package com.nisum.evaluacionJava.services;
 
 import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
+import com.nisum.evaluacionJava.dto.request.UserUpdateRequestDTO;
 import com.nisum.evaluacionJava.dto.response.UserResponseDTO;
 import com.nisum.evaluacionJava.entities.Phone;
 import com.nisum.evaluacionJava.entities.User;
@@ -105,8 +106,6 @@ public class UserServiceImpl implements UserService{
 
                 User savedUser = userRepository.save(user);
 
-                //metodo de hibernetes, voy inicializando las listas que quiero, y así evitar inicializar all automatico. Mejor LAZY que Eager.
-
                 Hibernate.initialize(savedUser.getPhones());
 
                 return UserResponseDTO
@@ -139,10 +138,11 @@ public class UserServiceImpl implements UserService{
         return modelMapper.map(user, UserResponseDTO.class);
     }
 
-    public UserResponseDTO updated(Long id, UserRequestDTO updatedUser) {
+    @Override
+    public UserResponseDTO updated(String email, UserUpdateRequestDTO updatedUser) {
         try {
-            User foundUser = userRepository.findById(id).get();
-           // foundUser.setId(updatedUser.getPhones().getId());
+            User foundUser = userRepository.findUserByEmail(email);
+            foundUser.setIsActive(updatedUser.getIsActive());
 
             userRepository.save(foundUser);
 
@@ -162,9 +162,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean deleteUser(Long id, String email) {
+    public Boolean deleteUser(String email) {
         try{
-            User user = userRepository.findUserByIdAndEmail(id, email);
+            User user = userRepository.findUserByEmail(email);
             user.setIsActive(false);
             user.setUpdated(LocalDateTime.now());
             userRepository.save(user);

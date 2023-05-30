@@ -1,6 +1,5 @@
 package com.nisum.evaluacionJava.dto.request;
 
-import com.nisum.evaluacionJava.dto.response.UserIdResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +13,5 @@ public class PhoneRequestDTO {
     private String phoneNumber;
     private String cityCode;
     private String countryCode;
-    //private Long userId;
 
 }

@@ -1,6 +1,7 @@
 package com.nisum.evaluacionJava.services;
 
 import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
+import com.nisum.evaluacionJava.dto.request.UserUpdateRequestDTO;
 import com.nisum.evaluacionJava.dto.response.UserResponseDTO;
 
 public interface UserService {
@@ -11,8 +12,8 @@ public interface UserService {
 
     UserResponseDTO getUser(Long id);
 
-    UserResponseDTO updated(Long id, UserRequestDTO updatedUser);
+    UserResponseDTO updated(String email, UserUpdateRequestDTO updatedUser);
 
-    Boolean deleteUser(Long id, String email);
+    Boolean deleteUser(String email);
 
 }
