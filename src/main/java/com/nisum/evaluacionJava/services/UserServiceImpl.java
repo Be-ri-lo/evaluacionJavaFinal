@@ -1,5 +1,6 @@
 package com.nisum.evaluacionJava.services;
 
+import com.nisum.evaluacionJava.domain.JwtToken;
 import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
 import com.nisum.evaluacionJava.dto.request.UserUpdateRequestDTO;
 import com.nisum.evaluacionJava.dto.response.UserResponseDTO;
@@ -26,12 +27,15 @@ public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
     private final PhoneRepository phoneRepository;
     private final ModelMapper modelMapper;
+    private final JwtBuilderGeneratorService jwtBuilderGeneratorService;
 
 
-    public UserServiceImpl(UserRepository userRepository, PhoneRepository phoneRepository,  ModelMapper modelMapper) {
+
+    public UserServiceImpl(UserRepository userRepository, PhoneRepository phoneRepository,  ModelMapper modelMapper, JwtBuilderGeneratorService jwtBuilderGeneratorService) {
         this.userRepository = userRepository;
         this.phoneRepository = phoneRepository;
         this.modelMapper = modelMapper;
+        this.jwtBuilderGeneratorService = jwtBuilderGeneratorService;
     }
 
     private Boolean verifyExistingUser(UserRequestDTO userRequestDTO){
@@ -81,11 +85,15 @@ public class UserServiceImpl implements UserService{
 
             UserResponseDTO userResponseDTO = getUserToCreate(userRequestDTO.getEmail());
             if (userResponseDTO == null) {
-
+                //JwtToken token = new JwtToken(jwtBuilderGeneratorService.generateToken(authentication));
+                //String token = jwtBuilderGeneratorService.generateToken(authentication);
+                String token = jwtBuilderGeneratorService.generateToken(userRequestDTO.getName());
                 LocalDateTime now = LocalDateTime.now();
+
+               /* LocalDateTime now = LocalDateTime.now();
                 byte[] array = new byte[7];
                 new Random().nextBytes(array);
-                String randomString = new String(array, StandardCharsets.UTF_8);
+                String randomString = new String(array, StandardCharsets.UTF_8);*/
 
                 User user = User.builder()
                         .name(userRequestDTO.getName())
@@ -95,7 +103,7 @@ public class UserServiceImpl implements UserService{
                         .phones((List<Phone>) userRequestDTO.getPhones())
                         .created(now)
                         .updated(now)
-                        .tokenId(randomString)
+                        .tokenId(token)
                         .build();
 
                 if(user.getPhones() != null && !user.getPhones().isEmpty()) {
@@ -142,7 +150,8 @@ public class UserServiceImpl implements UserService{
     public UserResponseDTO updated(String email, UserUpdateRequestDTO updatedUser) {
         try {
             User foundUser = userRepository.findUserByEmail(email);
-            foundUser.setIsActive(updatedUser.getIsActive());
+            foundUser.setIsActive(false);
+            foundUser.setUpdated(LocalDateTime.now());
 
             userRepository.save(foundUser);
 
