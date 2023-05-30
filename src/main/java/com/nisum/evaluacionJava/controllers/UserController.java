@@ -31,10 +31,10 @@ public class UserController {
         return ResponseEntity.ok(userService.getUserEmail(email));
     }
 
-    @GetMapping("/{id}")
+    /*@GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.getUser(id));
-    }
+    }*/
 
     @PutMapping("/{id}")
     public ResponseEntity updatedUser(@PathVariable("id") Long id, @RequestBody UserRequestDTO userRequestDTO) {

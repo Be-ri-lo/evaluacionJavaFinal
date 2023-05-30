@@ -7,6 +7,7 @@ import com.nisum.evaluacionJava.entities.User;
 import com.nisum.evaluacionJava.exceptions.CustomEx;
 import com.nisum.evaluacionJava.repositories.PhoneRepository;
 import com.nisum.evaluacionJava.repositories.UserRepository;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -96,13 +97,17 @@ public class UserServiceImpl implements UserService{
                         .tokenId(randomString)
                         .build();
 
+                if(user.getPhones() != null && !user.getPhones().isEmpty()) {
+                    for (Phone phone : user.getPhones()) {
+                        phone.setUsuario(user);
+                    }
+                }
+
                 User savedUser = userRepository.save(user);
 
-               /* List<Phone> phoneList = savedUser.getPhones();
-                if(phoneList == null) return null;
-                for (Phone phone: phoneList) {
-                    phoneRepository.save(phone);
-                }*/
+                //metodo de hibernetes, voy inicializando las listas que quiero, y así evitar inicializar all automatico. Mejor LAZY que Eager.
+
+                Hibernate.initialize(savedUser.getPhones());
 
                 return UserResponseDTO
                         .builder()
@@ -137,7 +142,7 @@ public class UserServiceImpl implements UserService{
     public UserResponseDTO updated(Long id, UserRequestDTO updatedUser) {
         try {
             User foundUser = userRepository.findById(id).get();
-            foundUser.setId(updatedUser.getPhones().getId());
+           // foundUser.setId(updatedUser.getPhones().getId());
 
             userRepository.save(foundUser);
 

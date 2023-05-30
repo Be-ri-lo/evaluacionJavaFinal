@@ -45,7 +45,7 @@ public class Phone {
     @Column(name = "country_code", nullable = false)
     private String countryCode;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_user", referencedColumnName = "id")
     User usuario;
 }
