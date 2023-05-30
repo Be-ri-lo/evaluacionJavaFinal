@@ -14,6 +14,6 @@ public class PhoneResponseDTO {
     private String phoneNumber;
     private String cityCode;
     private String countryCode;
-    private UserIdResponseDTO userId;
+    private Long userId;
 
 }

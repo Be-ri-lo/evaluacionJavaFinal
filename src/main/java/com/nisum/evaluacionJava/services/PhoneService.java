@@ -10,6 +10,6 @@ public interface PhoneService {
 
     PhoneResponseDTO savePhone(PhoneRequestDTO phoneRequestDTO);
 
-    Optional<Phone> getPhone(Long id);
+    PhoneResponseDTO getPhone(Long id);
 
 }

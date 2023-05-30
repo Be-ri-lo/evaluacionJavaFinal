@@ -11,10 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class PhoneRequestDTO {
-    private Long id;
     private String phoneNumber;
     private String cityCode;
     private String countryCode;
-    private UserIdResponseDTO userId;
+    //private Long userId;
 
 }
