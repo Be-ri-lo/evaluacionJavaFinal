@@ -27,5 +27,3 @@ public class JwtToken {
         return Objects.hash(token);
     }
 }
-
-

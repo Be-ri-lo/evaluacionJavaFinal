@@ -25,7 +25,7 @@ import java.util.List;
 @Entity
 @Builder
 @Table(name="usuario")
-@ToString(exclude = "phones")
+@ToString(exclude = "phone")
 public class User {
     @Id
     @SequenceGenerator(
@@ -48,32 +48,31 @@ public class User {
     @Column(columnDefinition = "boolean default true")
     private Boolean isActive;
 
-    @Column(name = "created_at")
+    //@Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime created;
 
-    @Column(name = "updated_at")
+    //@Column(name = "updated_at")
     @CreationTimestamp
     private LocalDateTime updated;
-
-    @Column(name = "day_of_login")
-    private LocalDateTime lastLogin;
 
     @Column
     //para que un dato no se persistido @Transient
     private String password;
 
     @Column
-    private String phone;
+    private String lastLogin;
 
     @Column
     private String tokenId;
 
+    @Column
+    private String phone;
 
    /* @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
-    private List<Phone> phones;*/
+    private List<Phone> phone;*/
 
-
+    //token
 
 
 }

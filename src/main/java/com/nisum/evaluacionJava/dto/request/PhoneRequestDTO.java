@@ -1,6 +1,8 @@
 package com.nisum.evaluacionJava.dto.request;
 
-import com.nisum.evaluacionJava.dto.response.UserIdResponseDTO;
+import com.nisum.evaluacionJava.dto.response.PhoneResponseDTO;
+import com.nisum.evaluacionJava.entities.Phone;
+import jdk.jshell.Snippet;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,17 +14,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PhoneRequestDTO {
     private Long id;
-    private String phoneNumber;
+    private String number;
     private String cityCode;
     private String countryCode;
-    //private UserIdResponseDTO userId;
 
-    /*public static PhoneRequestDTO fromRepository (Phone phone) {
+    public static PhoneRequestDTO from (Phone phone) {
         return PhoneRequestDTO.builder()
                 .id(phone.getId())
-                .phoneNumber(phone.getPhoneNumber())
+                .number(phone.getNumber())
                 .cityCode(phone.getCityCode())
                 .countryCode(phone.getCountryCode())
                 .build();
-    }*/
+    }
 }

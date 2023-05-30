@@ -1,9 +1,13 @@
 package com.nisum.evaluacionJava.dto.response;
 
+
+import com.nisum.evaluacionJava.entities.Phone;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -11,20 +15,16 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PhoneResponseDTO {
     private Long id;
-    private String phoneNumber;
+    private String number;
     private String cityCode;
     private String countryCode;
-    //private UserIdResponseDTO userId;
 
-   /*public static PhoneResponseDTO fromRepository (Phone phone) {
-       UserResponseDTO parsedUser = UserResponseDTO.builder()
-               .id(phone.getId())
-               .build();
-       return PhoneResponseDTO.builder()
-               .id(phone.getId())
-               .phoneNumber(phone.getPhoneNumber())
-               .cityCode(phone.getCityCode())
-               .countryCode(phone.getCountryCode())
-               .build();
-   }*/
+    public static PhoneResponseDTO from (Phone phone) {
+        return PhoneResponseDTO.builder()
+                .id(phone.getId())
+                .number(phone.getNumber())
+                .cityCode(phone.getCityCode())
+                .countryCode(phone.getCountryCode())
+                .build();
+    }
 }

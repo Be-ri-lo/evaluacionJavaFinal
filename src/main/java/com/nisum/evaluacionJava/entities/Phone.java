@@ -20,7 +20,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "phones")
+@Table(name = "phone")
 @ToString(exclude = "usuario")
 @NoArgsConstructor
 public class Phone {
@@ -37,7 +37,7 @@ public class Phone {
     private Long id;
 
     @Column(name = "number", nullable = false)
-    private String phoneNumber;
+    private String number;
 
     @Column(name = "city_code", nullable = false)
     private String cityCode;
@@ -45,7 +45,7 @@ public class Phone {
     @Column(name = "country_code", nullable = false)
     private String countryCode;
 
-   /* @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user", referencedColumnName = "id")
-    User usuario;*/
+    User usuario;
 }

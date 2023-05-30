@@ -22,7 +22,7 @@ public class PhoneController {
     }
 
     @PostMapping
-    public ResponseEntity<Phone> saveUser(@RequestBody PhoneRequestDTO phoneRequestDTO) {
-        return new ResponseEntity(phoneService.savePhone(phoneRequestDTO), HttpStatus.CREATED);
+    public ResponseEntity<Phone> saveUser(@RequestBody Phone phone) {
+        return new ResponseEntity(phoneService.savePhone(phone), HttpStatus.CREATED);
     }
 }
