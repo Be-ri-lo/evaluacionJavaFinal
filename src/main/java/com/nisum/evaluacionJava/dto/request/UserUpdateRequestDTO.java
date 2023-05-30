@@ -6,17 +6,16 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRequestDTO implements Serializable {
+public class UserUpdateRequestDTO {
     private String name;
     private String email;
     private String password;
+    private Boolean isActive;
     private List<Phone> phones;
-
 }

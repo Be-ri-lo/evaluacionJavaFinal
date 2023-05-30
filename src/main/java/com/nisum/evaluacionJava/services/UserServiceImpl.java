@@ -1,12 +1,14 @@
 package com.nisum.evaluacionJava.services;
 
 import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
+import com.nisum.evaluacionJava.dto.request.UserUpdateRequestDTO;
 import com.nisum.evaluacionJava.dto.response.UserResponseDTO;
 import com.nisum.evaluacionJava.entities.Phone;
 import com.nisum.evaluacionJava.entities.User;
 import com.nisum.evaluacionJava.exceptions.CustomEx;
 import com.nisum.evaluacionJava.repositories.PhoneRepository;
 import com.nisum.evaluacionJava.repositories.UserRepository;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -96,13 +98,15 @@ public class UserServiceImpl implements UserService{
                         .tokenId(randomString)
                         .build();
 
+                if(user.getPhones() != null && !user.getPhones().isEmpty()) {
+                    for (Phone phone : user.getPhones()) {
+                        phone.setUsuario(user);
+                    }
+                }
+
                 User savedUser = userRepository.save(user);
 
-               /* List<Phone> phoneList = savedUser.getPhones();
-                if(phoneList == null) return null;
-                for (Phone phone: phoneList) {
-                    phoneRepository.save(phone);
-                }*/
+                Hibernate.initialize(savedUser.getPhones());
 
                 return UserResponseDTO
                         .builder()
@@ -134,10 +138,11 @@ public class UserServiceImpl implements UserService{
         return modelMapper.map(user, UserResponseDTO.class);
     }
 
-    public UserResponseDTO updated(Long id, UserRequestDTO updatedUser) {
+    @Override
+    public UserResponseDTO updated(String email, UserUpdateRequestDTO updatedUser) {
         try {
-            User foundUser = userRepository.findById(id).get();
-            foundUser.setId(updatedUser.getPhones().getId());
+            User foundUser = userRepository.findUserByEmail(email);
+            foundUser.setIsActive(updatedUser.getIsActive());
 
             userRepository.save(foundUser);
 
@@ -157,9 +162,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean deleteUser(Long id, String email) {
+    public Boolean deleteUser(String email) {
         try{
-            User user = userRepository.findUserByIdAndEmail(id, email);
+            User user = userRepository.findUserByEmail(email);
             user.setIsActive(false);
             user.setUpdated(LocalDateTime.now());
             userRepository.save(user);

@@ -1,5 +1,6 @@
 package com.nisum.evaluacionJava.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -65,10 +66,12 @@ public class User {
     private String tokenId;
 
 
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Phone> phones;
 
 
 
 
 }
+ /*forma de guardar mejor phones.
+cascade.*/

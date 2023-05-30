@@ -34,11 +34,11 @@ class PhoneServiceImplTest {
     private Phone phoneTest;
     private PhoneRequestDTO phoneRequestDTOTest;
 
-    @BeforeEach
+  /*  @BeforeEach
     public void beforeEachTest() {
         phoneTest = Phone.builder().id(1L).phoneNumber("223455").cityCode("12").countryCode("12").build();
         phoneRequestDTOTest = PhoneRequestDTO.builder().id(1L).phoneNumber("223455").cityCode("12").countryCode("12").build();
-    }
+    }*/
 
     @Test
     @DisplayName("Save a phone")
