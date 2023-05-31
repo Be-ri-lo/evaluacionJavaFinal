@@ -107,6 +107,13 @@ class UserServiceImplTest {
     }*/
 /*
     @Test
+    @DisplayName("Test user getUserByEmail in a success scenario")
+    public void getAllUsers()  {
+            List<User> userList = new ArrayList<>();
+
+            }*/
+/*
+    @Test
     void updated() {
     }
 
