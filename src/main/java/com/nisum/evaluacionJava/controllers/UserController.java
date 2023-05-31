@@ -40,12 +40,12 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<UserResponseDTO>> getReservations() {
+    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PutMapping("/{email}")
-    public ResponseEntity updatedUser(@PathVariable("email") String email, @RequestBody UserRequestDTO userRequestDTO) {
+    public ResponseEntity updatedUser(@PathVariable("email") String email, @RequestBody UserUpdateRequestDTO userUpdateRequestDTO) {
         return new ResponseEntity(userService.updated(email, UserUpdateRequestDTO.builder().build()), HttpStatus.OK);
     }
 

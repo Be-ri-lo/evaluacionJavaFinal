@@ -13,7 +13,6 @@ import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,8 +28,6 @@ public class UserServiceImpl implements UserService{
     private final ModelMapper modelMapper;
     private final JwtBuilderGeneratorService jwtBuilderGeneratorService;
 
-
-
     public UserServiceImpl(UserRepository userRepository, PhoneRepository phoneRepository,  ModelMapper modelMapper, JwtBuilderGeneratorService jwtBuilderGeneratorService) {
         this.userRepository = userRepository;
         this.phoneRepository = phoneRepository;
@@ -38,12 +35,14 @@ public class UserServiceImpl implements UserService{
         this.jwtBuilderGeneratorService = jwtBuilderGeneratorService;
     }
 
-    private Boolean verifyExistingUser(UserRequestDTO userRequestDTO){
+    @Override
+    public Boolean verifyExistingUser(UserRequestDTO userRequestDTO){
         UserResponseDTO foundUser = getUserEmail(userRequestDTO.getEmail());
         return foundUser != null;
     }
 
-    private boolean isEmailMatch(UserRequestDTO userRequestDTO) {
+    @Override
+    public Boolean isEmailMatch(UserRequestDTO userRequestDTO) {
         boolean emailMatch;
         String email = userRequestDTO.getEmail();
         Pattern pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
@@ -52,17 +51,18 @@ public class UserServiceImpl implements UserService{
         return emailMatch;
     }
 
-    private boolean isPasswordMatch(UserRequestDTO userRequestDTO){
+    @Override
+    public Boolean isPasswordMatch(UserRequestDTO userRequestDTO){
         boolean passMatch;
         String pass = userRequestDTO.getPassword();
         Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,16}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(pass);
         passMatch = matcher.matches();
         return passMatch;
-
     }
 
-    private UserResponseDTO getUserToCreate(String email) {
+    @Override
+    public UserResponseDTO getUserToCreate(String email) {
         try {
             return getUserEmail(email);
         } catch (Exception e) {
@@ -130,14 +130,17 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserResponseDTO getUserEmail(String email) {
         User user = userRepository.findUserByEmail(email);
-        if(user == null) return null;
+        if(user == null) {
+            return null;
+        }
         return modelMapper.map(user, UserResponseDTO.class);
     }
 
     @Override
     public UserResponseDTO getUser(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return modelMapper.map(user, UserResponseDTO.class);
+        Optional<User> userOptional = userRepository.findById(id);
+        return userOptional.map(user -> modelMapper.map(user, UserResponseDTO.class))
+                .orElseThrow(() -> new CustomEx("Error: Usuario no encontrado.", HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -158,6 +161,10 @@ public class UserServiceImpl implements UserService{
     public UserResponseDTO updated(String email, UserUpdateRequestDTO updatedUser) {
         try {
             User foundUser = userRepository.findUserByEmail(email);
+            if (foundUser == null) {
+                throw new CustomEx("Error: Usuario no encontrado.", HttpStatus.NOT_FOUND);
+            }
+
             foundUser.setIsActive(false);
             foundUser.setUpdated(LocalDateTime.now());
 
@@ -173,21 +180,26 @@ public class UserServiceImpl implements UserService{
                     .tokenId(foundUser.getTokenId())
                     .build();
 
-        } catch (CustomEx e) {
+        } catch (NullPointerException e) {
             throw new CustomEx("Error: No ha sido posible actualizar", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Override
     public Boolean deleteUser(String email) {
-        try{
+        try {
             User user = userRepository.findUserByEmail(email);
+            if (user == null) {
+                throw new CustomEx("Error: Usuario no existe", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
             user.setIsActive(false);
             user.setUpdated(LocalDateTime.now());
             userRepository.save(user);
+
             return true;
-        } catch(CustomEx e) {
-            throw new CustomEx("Error: Usuario no existe", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (CustomEx e) {
+            throw e;
         }
     }
 

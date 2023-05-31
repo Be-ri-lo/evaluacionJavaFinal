@@ -1,6 +1,5 @@
 package com.nisum.evaluacionJava.services;
 
-import com.nisum.evaluacionJava.controllers.PhoneController;
 import com.nisum.evaluacionJava.dto.request.PhoneRequestDTO;
 import com.nisum.evaluacionJava.dto.response.PhoneResponseDTO;
 import com.nisum.evaluacionJava.entities.Phone;
@@ -12,20 +11,23 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Unit tests of PhoneServiceImpl class")
-class PhoneServiceImplTest {
+public class PhoneServiceImplTest {
 
     @Mock
     private PhoneRepository phoneRepository;
@@ -33,12 +35,17 @@ class PhoneServiceImplTest {
     private UserRepository userRepository;
     private Phone phoneTest;
     private PhoneRequestDTO phoneRequestDTOTest;
+    private PhoneServiceImpl phoneServiceImpl;
+    private UserServiceImpl userServiceImpl;
 
-  /*  @BeforeEach
+    @BeforeEach
     public void beforeEachTest() {
+        MockitoAnnotations.openMocks(this);
+
+        modelMapper = new ModelMapper();
         phoneTest = Phone.builder().id(1L).phoneNumber("223455").cityCode("12").countryCode("12").build();
-        phoneRequestDTOTest = PhoneRequestDTO.builder().id(1L).phoneNumber("223455").cityCode("12").countryCode("12").build();
-    }*/
+        phoneRequestDTOTest = PhoneRequestDTO.builder().phoneNumber("223455").cityCode("12").countryCode("12").build();
+    }
 
     @Test
     @DisplayName("Save a phone")
@@ -51,44 +58,46 @@ class PhoneServiceImplTest {
     }
 
     @Test
-    @DisplayName("get Phone by id")
-    public void getPhone() {
-        when(phoneRepository.findById(any())).thenReturn(Optional.of(phoneTest));
+    @DisplayName("Error al guardar el teléfono")
+    public void testSavePhone_Error() {
 
-        PhoneServiceImpl phoneServiceImpl = new PhoneServiceImpl(phoneRepository,userRepository, modelMapper);
-        PhoneResponseDTO result = phoneServiceImpl.getPhone(1L);
+        PhoneRequestDTO phoneRequestDTO = new PhoneRequestDTO();
+        phoneRequestDTO.setPhoneNumber("123456789");
+        phoneRequestDTO.setCityCode("123");
+        phoneRequestDTO.setCountryCode("456");
 
-        assertTrue(true, String.valueOf(phoneTest.getId() > 0));
-        assertEquals("223455", phoneTest.getPhoneNumber());
-        assertEquals("12", phoneTest.getCityCode());
+        when(phoneRepository.save(any(Phone.class))).thenThrow(new CustomEx("Error: Teléfono no se ha podido guardar", HttpStatus.INTERNAL_SERVER_ERROR));
+        PhoneServiceImpl phoneServiceImpl = new PhoneServiceImpl(phoneRepository, userRepository,modelMapper);
+
+        assertThrows(CustomEx.class, () -> phoneServiceImpl.savePhone(phoneRequestDTO));
     }
 
-   /* @Test
-    @DisplayName("get Phone to create")
-    public void getPhoneToCreate() {
+    @Test
+    @DisplayName("get Phone by id")
+    public void getPhoneById_validId() {
         when(phoneRepository.findById(any())).thenReturn(Optional.of(phoneTest));
 
-        PhoneServiceImpl phoneServiceImpl = new PhoneServiceImpl(phoneRepository, userRepository, modelMapper);
-        Optional<Phone> result = phoneServiceImpl.getPhoneToCreate(1L);
+        PhoneServiceImpl phoneServiceImpl = new PhoneServiceImpl(phoneRepository, null, modelMapper);
+        PhoneResponseDTO result = phoneServiceImpl.getPhone(1L);
 
-        assertTrue(true, String.valueOf(phoneTest.getId() > 0));
-        assertEquals("223455", phoneTest.getPhoneNumber());
-        assertEquals("12", phoneTest.getCityCode());
-    }*/
+        assertNotNull(result);
+        verify(phoneRepository).findById(1L);
+
+    }
 
     @Test
-    @DisplayName("Save a phone but exist an Custom Exception")
-    public void savePhoneCustomException() {
-        CustomEx customEx = new CustomEx("Error: Teléfono no se ha podido guardar", HttpStatus.INTERNAL_SERVER_ERROR);
-        CustomEx exception = assertThrows(CustomEx.class, () -> {
-            PhoneServiceImpl phoneService = Mockito.mock(PhoneServiceImpl.class);
+    @DisplayName("Obtener un id invalido")
+    public void testGetPhone_InvalidId() {
+        Long invalidId = 999L;
 
-            when(phoneService.savePhone(any())).thenThrow(customEx);
-            PhoneController phoneController = new PhoneController(phoneService);
+        when(phoneRepository.findById(invalidId)).thenReturn(Optional.empty());
 
-            phoneController.savePhone(any());
-        });
+        PhoneServiceImpl phoneServiceImpl = new PhoneServiceImpl(phoneRepository, null, modelMapper);
+        PhoneResponseDTO result = phoneServiceImpl.getPhone(invalidId);
 
-        assertEquals(exception, customEx);
+        assertNull(result);
+
+        verify(phoneRepository).findById(invalidId);
+
     }
 }
