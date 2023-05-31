@@ -1,4 +1,4 @@
-package com.nisum.evaluacionJava.config;
+package com.nisum.evaluacionJava.config.jwt;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

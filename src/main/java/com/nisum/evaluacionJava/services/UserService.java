@@ -4,6 +4,8 @@ import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
 import com.nisum.evaluacionJava.dto.request.UserUpdateRequestDTO;
 import com.nisum.evaluacionJava.dto.response.UserResponseDTO;
 
+import java.util.List;
+
 public interface UserService {
 
     UserResponseDTO saveUser(UserRequestDTO userRequestDTO);
@@ -11,6 +13,8 @@ public interface UserService {
     UserResponseDTO getUserEmail(String email);
 
     UserResponseDTO getUser(Long id);
+
+    List<UserResponseDTO> getAllUsers();
 
     UserResponseDTO updated(String email, UserUpdateRequestDTO updatedUser);
 

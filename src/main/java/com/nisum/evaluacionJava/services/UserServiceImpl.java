@@ -1,6 +1,5 @@
 package com.nisum.evaluacionJava.services;
 
-import com.nisum.evaluacionJava.domain.JwtToken;
 import com.nisum.evaluacionJava.dto.request.UserRequestDTO;
 import com.nisum.evaluacionJava.dto.request.UserUpdateRequestDTO;
 import com.nisum.evaluacionJava.dto.response.UserResponseDTO;
@@ -10,14 +9,15 @@ import com.nisum.evaluacionJava.exceptions.CustomEx;
 import com.nisum.evaluacionJava.repositories.PhoneRepository;
 import com.nisum.evaluacionJava.repositories.UserRepository;
 import org.hibernate.Hibernate;
+import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import java.nio.charset.StandardCharsets;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,26 +80,20 @@ public class UserServiceImpl implements UserService{
                 throw new CustomEx("Error: El correo no es válido.", HttpStatus.INTERNAL_SERVER_ERROR);
             }
             if (!isPasswordMatch(userRequestDTO)) {
-                throw new CustomEx("Error: La contraseña no es válida.", HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new CustomEx("Error: La contraseña no es válida, debe tener entre 8 a 16 caracteres, a lo menos una mayúscula, número y un símbolo (@#$%^&+=!).", HttpStatus.INTERNAL_SERVER_ERROR);
             }
 
             UserResponseDTO userResponseDTO = getUserToCreate(userRequestDTO.getEmail());
             if (userResponseDTO == null) {
-                //JwtToken token = new JwtToken(jwtBuilderGeneratorService.generateToken(authentication));
-                //String token = jwtBuilderGeneratorService.generateToken(authentication);
                 String token = jwtBuilderGeneratorService.generateToken(userRequestDTO.getName());
                 LocalDateTime now = LocalDateTime.now();
-
-               /* LocalDateTime now = LocalDateTime.now();
-                byte[] array = new byte[7];
-                new Random().nextBytes(array);
-                String randomString = new String(array, StandardCharsets.UTF_8);*/
 
                 User user = User.builder()
                         .name(userRequestDTO.getName())
                         .email(userRequestDTO.getEmail())
                         .password(userRequestDTO.getPassword())
                         .isActive(true)
+                        .lastLogin(now)
                         .phones((List<Phone>) userRequestDTO.getPhones())
                         .created(now)
                         .updated(now)
@@ -144,6 +138,20 @@ public class UserServiceImpl implements UserService{
     public UserResponseDTO getUser(Long id) {
         Optional<User> user = userRepository.findById(id);
         return modelMapper.map(user, UserResponseDTO.class);
+    }
+
+    @Override
+    public List<UserResponseDTO> getAllUsers() {
+        try {
+            List<User> allUser = (List<User>) userRepository.findAll();
+            List<UserResponseDTO> userResponseDTOList = new ArrayList<>();
+            allUser.forEach(user -> userResponseDTOList.add(modelMapper.map(user, UserResponseDTO.class)));
+            return userResponseDTOList;
+        } catch (MappingException e) {
+            throw new CustomEx("No es posible listar a los usuarios", HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (Exception e) {
+            throw new Error(String.format("Error al listar a los usuarios", e.getMessage()));
+        }
     }
 
     @Override
