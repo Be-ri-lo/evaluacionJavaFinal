@@ -1,4 +1,4 @@
-package com.nisum.evaluacionJava.config;
+package com.nisum.evaluacionJava.config.modelMapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

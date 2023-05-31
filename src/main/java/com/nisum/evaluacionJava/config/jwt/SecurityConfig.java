@@ -1,4 +1,4 @@
-package com.nisum.evaluacionJava.config;
+package com.nisum.evaluacionJava.config.jwt;
 
 /*import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;

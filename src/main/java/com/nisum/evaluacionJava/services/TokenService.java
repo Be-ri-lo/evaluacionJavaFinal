@@ -1,5 +1,5 @@
-/*package com.nisum.evaluacionJava.services;
-
+package com.nisum.evaluacionJava.services;
+/*
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -9,13 +9,15 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.stream.Collectors;*/
+import java.util.stream.Collectors;
 
-/*
-@Service
+
+@Service*/
+
+
 public class TokenService {
 
-    private final JwtEncoder encoder;
+   /* private final JwtEncoder encoder;
 
     public TokenService(JwtEncoder encoder) {
         this.encoder = encoder;
@@ -34,6 +36,6 @@ public class TokenService {
                 .claim("scope", scope)
                 .build();
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
-    }
+    }*/
 
-}*/
+}
