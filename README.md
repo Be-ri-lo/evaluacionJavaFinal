@@ -91,7 +91,7 @@ Completar con los siguientes datos:
 
 <br>
 <h6> </h6>
-<p>PUT http://localhost:8080/users/{id} </p>
+<p>PUT http://localhost:8080/users/{email} </p>
 <img width="500" alt="put" src="https://github.com/Be-ri-lo/evaluacionJavaFinal/assets/67941274/79c33941-9aed-4431-a87a-f1b03c9f0c68">
 
 <br>
